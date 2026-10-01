@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colbios Sports - Live Match Tracker</title>
+  <link rel="stylesheet" href="/frontend/css/style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <a href="/" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="9" stroke="white" stroke-width="2" fill="none"/>
+          <path d="M10 3 L10 17 M3 10 L17 10" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="logo-text">Colbios <span>Sports</span></span>
+    </a>
+    <nav class="header-nav">
+      <a href="/admin/login" class="nav-link admin-link">Admin Panel</a>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main class="main-container">
+
+    <!-- Sport filter -->
+    <div class="sport-filters" id="sport-filters">
+      <button class="filter-btn active" data-sport="all">All Sports</button>
+      <!-- Dynamic sport buttons injected by JS -->
+    </div>
+
+    <!-- Live Matches -->
+    <section class="section" id="section-live">
+      <div class="section-header">
+        <div class="live-dot"></div>
+        <h2 class="section-title live">Live</h2>
+        <span class="match-count" id="count-live"></span>
+      </div>
+      <div class="match-grid" id="grid-live">
+        <div class="loading-skeleton">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Matches -->
+    <section class="section" id="section-upcoming">
+      <div class="section-header">
+        <h2 class="section-title upcoming">Upcoming</h2>
+        <span class="match-count" id="count-upcoming"></span>
+      </div>
+      <div class="match-grid" id="grid-upcoming"></div>
+    </section>
+
+    <!-- Finished Matches -->
+    <section class="section" id="section-finished">
+      <div class="section-header">
+        <h2 class="section-title finished">Results</h2>
+        <span class="match-count" id="count-finished"></span>
+      </div>
+      <div class="match-grid" id="grid-finished"></div>
+    </section>
+
+  </main>
+
+  <div id="toast-container"></div>
+
+  <script src="/frontend/js/main.js"></script>
+</body>
+</html>

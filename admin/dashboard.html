@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Colbios Sports Admin</title>
+  <link rel="stylesheet" href="/admin/static/css/admin.css" />
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="9" stroke="white" stroke-width="2" fill="none"/>
+          <path d="M10 3 L10 17 M3 10 L17 10" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="logo-text">Colbios <span>Sports</span></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Management</div>
+      <a href="/admin/dashboard" class="nav-item active">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/>
+          <rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/>
+        </svg>
+        Dashboard
+      </a>
+      <a href="/admin/live" class="nav-item">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="8" cy="8" r="7"/><circle cx="8" cy="8" r="2" fill="currentColor"/>
+        </svg>
+        Live Control
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Site</div>
+      <a href="/" target="_blank" class="nav-item">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M8 1a7 7 0 100 14A7 7 0 008 1z"/>
+          <path d="M1 8h14M8 1c-1.5 2-2.5 4.5-2.5 7S6.5 13 8 15c1.5-2 2.5-4.5 2.5-7S9.5 3 8 1z"/>
+        </svg>
+        View Public Site
+      </a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="user-info">
+          <span class="user-name" id="admin-username">Admin</span>
+          <span class="user-role">Operator</span>
+        </div>
+        <button class="btn-logout" id="btn-logout">Sign Out</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="admin-content">
+
+    <div class="page-header">
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">Manage all matches and events.</p>
+    </div>
+
+    <!-- Create Match -->
+    <div class="card" style="margin-bottom: 24px;">
+      <div class="card-header">
+        <span class="card-title">Create New Match</span>
+      </div>
+      <div class="card-body">
+        <form class="form-grid" id="create-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="sport-select">Sport</label>
+            <select id="sport-select">
+              <option value="">Loading sports...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="date-input">Date</label>
+            <input type="date" id="date-input" />
+          </div>
+          <div class="form-group">
+            <label for="team-a-input">Team A</label>
+            <input type="text" id="team-a-input" placeholder="e.g. Eagles FC" />
+          </div>
+          <div class="form-group">
+            <label for="team-b-input">Team B</label>
+            <input type="text" id="team-b-input" placeholder="e.g. Lions United" />
+          </div>
+          <div class="form-group">
+            <label for="time-input">Kick-off Time</label>
+            <input type="time" id="time-input" />
+          </div>
+          <div class="form-group" style="align-self: flex-end;">
+            <button class="btn btn-primary" id="btn-create-match">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M7 1v12M1 7h12"/>
+              </svg>
+              Create Match
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Matches Table -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">All Matches</span>
+        <button class="btn btn-ghost btn-sm" id="btn-refresh-matches">Refresh</button>
+      </div>
+      <div style="overflow-x: auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Sport</th>
+              <th>Match</th>
+              <th>Score</th>
+              <th>Date / Time</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="matches-tbody">
+            <tr><td colspan="6" style="text-align:center; padding:32px; color:var(--text-muted);">Loading matches...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Edit Match Modal -->
+<div class="modal-overlay" id="edit-modal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">Edit Match</span>
+      <button class="modal-close" id="edit-modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-match-id" />
+      <div class="form-grid cols-1">
+        <div class="form-group">
+          <label>Team A</label>
+          <input type="text" id="edit-team-a" />
+        </div>
+        <div class="form-group">
+          <label>Team B</label>
+          <input type="text" id="edit-team-b" />
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="edit-date" />
+        </div>
+        <div class="form-group">
+          <label>Time</label>
+          <input type="time" id="edit-time" />
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="edit-status">
+            <option value="upcoming">Upcoming</option>
+            <option value="live">Live</option>
+            <option value="finished">Finished</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="edit-cancel">Cancel</button>
+      <button class="btn btn-primary" id="edit-save">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="/admin/static/js/dashboard.js"></script>
+</body>
+</html>

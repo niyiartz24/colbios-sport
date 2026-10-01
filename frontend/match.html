@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Match Details - Colbios Sports</title>
+  <link rel="stylesheet" href="/frontend/css/style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <a href="/" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="9" stroke="white" stroke-width="2" fill="none"/>
+          <path d="M10 3 L10 17 M3 10 L17 10" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="logo-text">Colbios <span>Sports</span></span>
+    </a>
+    <nav class="header-nav">
+      <a href="/admin/login" class="nav-link admin-link">Admin Panel</a>
+    </nav>
+  </header>
+
+  <main class="match-detail" id="match-detail-root">
+
+    <a href="/" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Back to matches
+    </a>
+
+    <!-- Scoreboard -->
+    <div class="scoreboard" id="scoreboard">
+      <div class="scoreboard-meta">
+        <span class="sport-badge" id="sb-sport-badge">--</span>
+        <span class="status-badge" id="sb-status-badge">--</span>
+      </div>
+      <div class="sb-score-grid">
+        <div class="sb-team">
+          <div class="sb-team-name" id="sb-team-a">Team A</div>
+          <div class="sb-date" id="sb-date">--</div>
+        </div>
+        <div class="sb-center">
+          <div class="sb-score">
+            <span id="sb-score-a">0</span>
+            <span class="sb-score-sep">:</span>
+            <span id="sb-score-b">0</span>
+          </div>
+          <div class="sb-status-text" id="sb-status-text">UPCOMING</div>
+        </div>
+        <div class="sb-team right">
+          <div class="sb-team-name" id="sb-team-b">Team B</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event Timeline -->
+    <div class="timeline-section">
+      <div class="timeline-header">
+        <span class="timeline-title">Match Events</span>
+        <span class="timeline-refresh" id="timeline-refresh-label">Auto-refresh active</span>
+      </div>
+      <div class="timeline-body" id="timeline-body">
+        <div class="no-events">No events recorded yet.</div>
+      </div>
+    </div>
+
+  </main>
+
+  <div id="toast-container"></div>
+
+  <script src="/frontend/js/match.js"></script>
+</body>
+</html>

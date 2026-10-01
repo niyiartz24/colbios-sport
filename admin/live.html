@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Control - Colbios Sports Admin</title>
+  <link rel="stylesheet" href="/admin/static/css/admin.css" />
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="9" stroke="white" stroke-width="2" fill="none"/>
+          <path d="M10 3 L10 17 M3 10 L17 10" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="logo-text">Colbios <span>Sports</span></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Management</div>
+      <a href="/admin/dashboard" class="nav-item">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/>
+          <rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/>
+        </svg>
+        Dashboard
+      </a>
+      <a href="/admin/live" class="nav-item active">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="8" cy="8" r="7"/><circle cx="8" cy="8" r="2" fill="currentColor"/>
+        </svg>
+        Live Control
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Site</div>
+      <a href="/" target="_blank" class="nav-item">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M8 1a7 7 0 100 14A7 7 0 008 1z"/>
+          <path d="M1 8h14M8 1c-1.5 2-2.5 4.5-2.5 7S6.5 13 8 15c1.5-2 2.5-4.5 2.5-7S9.5 3 8 1z"/>
+        </svg>
+        View Public Site
+      </a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="user-info">
+          <span class="user-name" id="admin-username">Admin</span>
+          <span class="user-role">Operator</span>
+        </div>
+        <button class="btn-logout" id="btn-logout">Sign Out</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="admin-content">
+
+    <div class="page-header">
+      <h1 class="page-title">Live Control</h1>
+      <p class="page-subtitle">Select a match and log events in real time.</p>
+    </div>
+
+    <!-- Match selector -->
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card-header">
+        <span class="card-title">Select Match</span>
+      </div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="match-select">Active or Upcoming Match</label>
+            <select id="match-select">
+              <option value="">-- Select a match --</option>
+            </select>
+          </div>
+          <div class="form-group" style="align-self: flex-end;">
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-success btn-sm" id="btn-set-live">Set Live</button>
+              <button class="btn btn-ghost btn-sm" id="btn-set-finished">Set Finished</button>
+              <button class="btn btn-ghost btn-sm" id="btn-reset-score">Reset Score</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Panel -->
+    <div id="live-panel" style="display:none;">
+      <div class="live-panel-layout">
+
+        <!-- Left: event controls -->
+        <div>
+          <div class="card" style="margin-bottom: 16px;">
+            <div class="card-header">
+              <span class="card-title">Scoreboard</span>
+              <span class="badge badge-live" id="live-status-badge"><span class="live-dot"></span> LIVE</span>
+            </div>
+            <div class="card-body">
+              <div class="scoreboard-mini">
+                <div class="sb-teams">
+                  <div class="sb-team-name" id="live-team-a">Team A</div>
+                  <div class="sb-score-display">
+                    <span id="live-score-a">0</span>
+                    <span class="sb-sep">:</span>
+                    <span id="live-score-b">0</span>
+                  </div>
+                  <div class="sb-team-name" id="live-team-b">Team B</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Add Event</span>
+            </div>
+            <div class="card-body">
+
+              <!-- Team selector -->
+              <div style="margin-bottom: 12px;">
+                <label style="display:block; margin-bottom: 6px;">Select Team</label>
+                <div class="team-toggle">
+                  <button class="team-toggle-btn active-a" id="btn-team-a" data-team="a">Team A</button>
+                  <button class="team-toggle-btn" id="btn-team-b" data-team="b">Team B</button>
+                </div>
+              </div>
+
+              <!-- Event type buttons -->
+              <div style="margin-bottom: 12px;">
+                <label style="display:block; margin-bottom: 6px;">Event Type</label>
+                <div class="event-grid" id="event-buttons">
+                  <!-- Injected by JS based on sport config -->
+                </div>
+              </div>
+
+              <!-- Player & time inputs -->
+              <div class="form-grid" style="margin-bottom: 14px;">
+                <div class="form-group">
+                  <label for="player-name-input">Player Name (optional)</label>
+                  <input type="text" id="player-name-input" placeholder="e.g. John Smith" />
+                </div>
+                <div class="form-group">
+                  <label for="minute-input">Minute / Time</label>
+                  <input type="text" id="minute-input" placeholder="e.g. 45, 12:30" />
+                </div>
+              </div>
+
+              <button class="btn btn-primary" id="btn-add-event" style="width:100%;">
+                Log Event
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: event log -->
+        <div>
+          <div class="live-event-log">
+            <div class="event-log-header">Event Log</div>
+            <div class="event-log-body" id="event-log-body">
+              <div class="no-log">No events yet. Start logging above.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="no-match-msg" style="text-align:center; padding:60px 24px; color:var(--text-muted); font-size:0.9rem;">
+      Select a match above to begin live control.
+    </div>
+
+  </main>
+</div>
+
+<div id="toast-container"></div>
+<script src="/admin/static/js/live.js"></script>
+</body>
+</html>
